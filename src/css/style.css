@@ -1,0 +1,5 @@
+#status {
+  /* avoid an excessively wide status text */
+  padding: 15px;
+  max-width: 600px;
+}
