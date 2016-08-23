@@ -28,23 +28,24 @@ document.addEventListener("DOMContentLoaded", function() {
   chrome.storage.sync.get("siteTimes", function (items){
     siteTimes = items.siteTimes;
     console.log(items);
-    var dateOrder = siteTimes["order"];
-    if (!dateOrder) {
+
+  });
+  
+  var dateOrder = siteTimes["order"];
+  if (!dateOrder) {
+    return;
+  }
+  var date = dateOrder[dateOrder.length-1];
+  getActiveTabUrl(function (url){
+    if (!siteTimes[url.hostname]) {
       return;
     }
-    var date = dateOrder[dateOrder.length-1];
-    getActiveTabUrl(function (url){
-      if (!siteTimes[url.hostname]) {
-        return;
-      }
-      if (siteTimes[url.hostname][date]) {
-        console.log(siteTimes[url.hostname][date].toString());
-        document.getElementById("status").textContent = siteTimes[url.hostname][date].toString();
-      }
-      else {
-        document.getElementById("status").textContent = "Time not found."
-      }
-    });
+    if (siteTimes[url.hostname][date]) {
+      console.log(siteTimes[url.hostname][date].toString());
+      document.getElementById("status").textContent = siteTimes[url.hostname][date].toString();
+    }
+    else {
+      document.getElementById("status").textContent = "Time not found."
+    }
   });
-
 });

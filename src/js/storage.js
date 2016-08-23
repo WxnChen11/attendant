@@ -29,7 +29,7 @@ SiteTimes.prototype.updateTimes = function() {
   }
   var currentTime = new Date();
   var change = currentTime - this._startTime;
-  var date = new Date(this._startTime.getTime() + this._dayThreshold* 3600000);
+  var date = new Date(this._startTime.getTime() - this._dayThreshold* 3600000);
   var date = date.toLocaleDateString();
   var dateOrder = this._siteTimes["order"];
   if ((!dateOrder) || date !== dateOrder[dateOrder.length-1]){
