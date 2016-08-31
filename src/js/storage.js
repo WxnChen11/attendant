@@ -29,6 +29,12 @@ SiteTimes.prototype.updateTimes = function() {
   }
   var currentTime = new Date();
   var change = currentTime - this._startTime;
+  if (change > 63000) {
+    // Since the alarm should go off every minute,
+    // the change should not exceed one minute.
+    // So if it did exceed one minute, there was probably a bug involved.
+    change = 30000;
+  }
   var date = new Date(this._startTime.getTime() - this._dayThreshold* 3600000);
   var date = date.toLocaleDateString();
   var dateOrder = this._siteTimes["order"];
@@ -58,13 +64,15 @@ SiteTimes.prototype.updateCurrentURL = function() {
   var self = this;
   this._getActiveTabURL(function(url) {
     if (!url) {
+      console.log('no URL found')
       self._currentURL = null;
+      self._startTime = null;
     }
     else {
       self._currentURL = url.hostname;
+      self._startTime = new Date();
     }
   });
-  this._startTime = new Date();
 };
 
 SiteTimes.prototype.removeCurrentURL = function() {
